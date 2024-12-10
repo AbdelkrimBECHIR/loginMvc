@@ -11,7 +11,9 @@ class RegisterController
 
     public function page()
     {
+        include 'view/header.php';
         include 'View/register.php';
+        include 'view/footer.php';
     }
 
     public function register()

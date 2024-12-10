@@ -10,9 +10,9 @@ class LoginController
 
     public function page()
     {
-       
+        include 'view/header.php';
         include 'View/login.php';
-  
+        include 'view/footer.php';
        
         // inclure les vues
     }    
