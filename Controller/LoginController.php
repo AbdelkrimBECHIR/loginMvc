@@ -13,10 +13,7 @@ class LoginController
        
         include 'View/login.php';
   
-        $error='';
-
-        $title="Connexion";
-        $action="Login";
+       
         // inclure les vues
     }    
 }

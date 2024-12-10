@@ -1,3 +1,4 @@
 <?php 
 
-require 'Model/User.php';
+require 'Model/UserModel.php';
+require 'Model/RegisterModel.php';

@@ -9,6 +9,30 @@ class UserRepository
         $this->dbh = $dbh;
     }
 
+
+    public function createUser(RegisterModel $user)
+    {
+        $stmt = $this->dbh->prepare("
+            INSERT INTO user (name, firstname, email, password, role) 
+            VALUES (:name, :firstname, :email, :password, 'user')
+        ");
+        $stmt->bindParam(':name', $user->name);
+        $stmt->bindParam(':firstname', $user->firstname);
+        $stmt->bindParam(':email', $user->email);
+        $stmt->bindParam(':password', $user->password);
+        return $stmt->execute();
+    }
+
+    public function userExists($email)
+    {
+        $stmt = $this->dbh->prepare("SELECT COUNT(*) FROM user WHERE email = :email");
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        return $stmt->fetchColumn() > 0;
+    }
+
+
+
     public function getUserByEmailAndPassword(array $credentials): ?User
     {
         try {
