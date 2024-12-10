@@ -1,3 +1,13 @@
+<?php
+
+// Afficher le message flash si défini
+if (isset($_SESSION['flash_message'])) {
+    echo "<p class='flash-message'>" . htmlspecialchars($_SESSION['flash_message']) . "</p>";
+    unset($_SESSION['flash_message']);
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -8,11 +18,31 @@
 </head>
 <body>
 <header>
-    <nav>
+<nav>
         <ul>
-            <li><a href="/login/login">Se connecter</a></li>
-            <li><a href="/register/register">S'inscrire</a></li>
-            <li><a href="/home">Accueil</a></li>
+            <li><a href="home">Accueil</a></li>
+            <?php 
+            // Vérifier si l'utilisateur est connecté
+            if (isset($_SESSION['user_id'])) { 
+            ?>
+                <li><a href="logout">Se déconnecter</a></li>
+            <?php 
+            } else { 
+            ?>
+                <li><a href="login">Se connecter</a></li>
+                <li><a href="register">S'inscrire</a></li>
+            <?php 
+            } 
+            
+            // Vérifier si l'utilisateur a un rôle d'admin
+            if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') { 
+            ?>
+                <li><a href="admin">Admin</a></li>
+            <?php 
+            } 
+            ?>
         </ul>
     </nav>
 </header>
+<main>
+ 

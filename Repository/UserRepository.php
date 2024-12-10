@@ -12,15 +12,19 @@ class UserRepository
 
     public function createUser(RegisterModel $user)
     {
-        $stmt = $this->dbh->prepare("
-            INSERT INTO user (name, firstname, email, password, role) 
-            VALUES (:name, :firstname, :email, :password, 'user')
-        ");
-        $stmt->bindParam(':name', $user->name);
-        $stmt->bindParam(':firstname', $user->firstname);
-        $stmt->bindParam(':email', $user->email);
-        $stmt->bindParam(':password', $user->password);
-        return $stmt->execute();
+        try {
+            $stmt = $this->dbh->prepare("
+                INSERT INTO user (name, firstname, email, password, role) 
+                VALUES (:name, :firstname, :email, :password, 'user')
+            ");
+            $stmt->bindParam(':name', $user->name);
+            $stmt->bindParam(':firstname', $user->firstname);
+            $stmt->bindParam(':email', $user->email);
+            $stmt->bindParam(':password', $user->password);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            throw new Exception("Erreur lors de l'insertion dans la base de données : " . $e->getMessage());
+        }
     }
 
     public function userExists($email)
@@ -31,65 +35,28 @@ class UserRepository
         return $stmt->fetchColumn() > 0;
     }
 
+    public function getUserByEmailAndPassword($email, $password): ?User
+{
+    try {
+        $sql = 'SELECT * FROM user WHERE email = :email LIMIT 1';
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->execute(['email' => $email]);
 
+        $user = $stmt->fetchObject(User::class);
 
-    public function getUserByEmailAndPassword(array $credentials): ?User
-    {
-        try {
-            $sql = 'SELECT * FROM user WHERE email = :email LIMIT 1';
-            $stmt = $this->dbh->prepare($sql);
-            $stmt->execute([
-                'email' => $credentials['email']
-            ]);
-
-            $user = $stmt->fetchObject(User::class);
-            
-            if ($user && password_verify($credentials['password'], $user->getPassword())) {
-                return $user;
-            }
-            
-            return null;
-        } catch (PDOException $e) {
-            // Log error securely, don't expose details
-            error_log("Database error: " . $e->getMessage());
-            return null;
+        if ($user && password_verify($password, $user->getPassword())) {
+            return $user;
         }
-    }
 
-    public function insert(array $infos): bool 
-    {
-        try {
-            $sql = 'INSERT INTO user (username, name, email, password, role, create_time) 
-                    VALUES (:username, :name, :email, :password, :role, NOW())';
-            
-            $stmt = $this->dbh->prepare($sql);
-            return $stmt->execute([
-                'username' => $infos['username'],
-                'name' => $infos['name'],
-                'email' => $infos['email'],
-                'password' => password_hash($infos['password'], PASSWORD_DEFAULT),
-                'role' => $infos['role'] ?? 'USER'
-            ]);
-        } catch (PDOException $e) {
-            error_log("Database error: " . $e->getMessage());
-            return false;
-        }
+        return null;
+    } catch (PDOException $e) {
+        error_log("Erreur de base de données : " . $e->getMessage());
+        return null;
     }
-    
-    public function findByEmail(string $email): ?User 
-    {
-        try {
-            $sql = 'SELECT * FROM user WHERE email = :email LIMIT 1';
-            $stmt = $this->dbh->prepare($sql);
-            $stmt->execute(['email' => $email]);
-            
-            return $stmt->fetchObject(User::class) ?: null;
-        } catch (PDOException $e) {
-            error_log("Database error: " . $e->getMessage());
-            return null;
-        }
-    }
+}
 
+
+      
     public function getAllUsers()
     {
         $stmt = $this->dbh->query("SELECT * FROM user");
@@ -98,13 +65,13 @@ class UserRepository
 
     public function updateUser($id, $name, $firstname, $email, $role)
     {
-        $stmt = $this->dbh->prepare("UPDATE user SET name = ?, firstname = ?, email = ?, role = ? WHERE id = ?");
+        $stmt = $this->dbh->prepare("UPDATE user SET name = ?, firstname = ?, email = ?, role = ? WHERE idUser = ?");
         $stmt->execute([$name, $firstname, $email, $role, $id]);
     }
 
     public function deleteUser($id)
     {
-        $stmt = $this->dbh->prepare("DELETE FROM users WHERE id = ?");
+        $stmt = $this->dbh->prepare("DELETE FROM user WHERE idUser = ?");
         $stmt->execute([$id]);
     }
 

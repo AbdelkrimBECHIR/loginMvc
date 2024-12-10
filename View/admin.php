@@ -1,6 +1,13 @@
-<?php include 'header.php'; ?>
+<?php
 
-<main id="admin">
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+    header("Location: /login");
+    exit();
+}
+?>
+
+
+
     <div class="content-wrapper">
         <h1>Gestion des utilisateurs</h1>
         <table>
@@ -33,13 +40,13 @@
                                 </select>
                             </td>
                             <td>
-                                <input type="hidden" name="id" value="<?= $user['id'] ?>">
+                                <input type="hidden" name="id" value="<?= $user['idUser'] ?>">
                                 <button type="submit" class="btn">Modifier</button>
                             </td>
                         </form>
                         <td>
                             <form action="/admin/delete" method="POST">
-                                <input type="hidden" name="id" value="<?= $user['id'] ?>">
+                                <input type="hidden" name="id" value="<?= $user['idUser'] ?>">
                                 <button type="submit" class="btn btn-delete">Supprimer</button>
                             </form>
                         </td>
@@ -48,6 +55,6 @@
             </tbody>
         </table>
     </div>
-</main>
 
-<?php include 'footer.php'; ?>
+
+

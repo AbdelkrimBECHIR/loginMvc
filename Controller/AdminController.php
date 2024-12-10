@@ -10,8 +10,10 @@ class AdminController
 
     public function page()
     {
+        include 'View/header.php';
         $users = $this->userRepository->getAllUsers();
         include 'View/admin.php';
+        include 'View/footer.php';
     }
 
     public function update()

@@ -6,9 +6,9 @@ class Router
     {
         $explodeUri = explode('/',trim($uri,'/'));
         
-        $controller = !empty($explodeUri[1]) ? ucfirst($explodeUri[1]) : 'Home';
-        $action = $explodeUri[2] ?? 'page';
-        $id = $explodeUri[3]?? null;
+        $controller = !empty($explodeUri[0]) ? ucfirst($explodeUri[0]) : 'Home';
+        $action = $explodeUri[1] ?? 'page';
+        $id = $explodeUri[2]?? null;
 
         $controller.= 'Controller';
 

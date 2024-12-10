@@ -109,6 +109,13 @@ table th {
 }
 
 
+.flash-message {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 10px;
+}
 
 
 footer {

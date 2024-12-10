@@ -1,10 +1,14 @@
 <?php
-require 'router.php';
-require 'config/constant.php';
-require 'config/db.php';
-require 'config/repository.php';
-require 'config/models.php';
-require 'config/controllers.php';
+
+session_start();
+
+
+require_once 'router.php';
+require_once 'config/constant.php';
+require_once 'config/db.php';
+require_once 'config/repository.php';
+require_once 'config/models.php';
+require_once 'config/controllers.php';
 
 // mon routeur
 $router= new Router();
@@ -21,6 +25,7 @@ $id =$elements['id'];
 
 // j'initialise une instance de mon controller avec la bdd en parametre
 $cont= new $controller($dbh);
+
 
 if (method_exists($cont, $action)) {
     $cont->$action($id);
