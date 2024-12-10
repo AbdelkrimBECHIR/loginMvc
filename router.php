@@ -1,11 +1,13 @@
 <?php
 
-class router
+class Router
 {
      public function getController(string $uri): array
     {
-        $explodeUri = explode('/',$uri);
-        $controller= $explodeUri[1] ? : 'home';
+        $explodeUri = explode('/',trim($uri,'/'));
+        
+        $controller= !empty($explodeUri[1]) ? ucfirst($explodeUri[1]) : 'Login';
+       
         $action=$explodeUri[2] ?? 'page';
 
         if($controller === 'home'){
@@ -23,7 +25,7 @@ class router
         return [
             'controller' => $controller,
             'action' => $action,
-            'id' => $id,
+            'id' => null,
         ];
     }
 }
