@@ -1,14 +1,11 @@
 <?php
 
-if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
-    header("Location: /login");
-    exit();
-}
+
 ?>
 
 
 
-    <div class="content-wrapper">
+    <div style="margin-right: 300px;" class="content-wrapper">
         <h1>Gestion des utilisateurs</h1>
         <table>
             <thead>

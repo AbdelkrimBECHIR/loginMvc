@@ -10,6 +10,10 @@ class AdminController
 
     public function page()
     {
+        if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+            header("Location: /login");
+            exit();
+        }
         include 'View/header.php';
         $users = $this->userRepository->getAllUsers();
         include 'View/admin.php';

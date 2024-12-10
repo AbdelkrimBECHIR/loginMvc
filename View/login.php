@@ -1,6 +1,10 @@
 
 <?php
-
+// Afficher le message flash si défini
+if (isset($_SESSION['flash_message'])) {
+    echo "<p class='flash-message'>" . htmlspecialchars($_SESSION['flash_message']) . "</p>";
+    unset($_SESSION['flash_message']);
+}
 
 ?>
 

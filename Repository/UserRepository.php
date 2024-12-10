@@ -36,25 +36,49 @@ class UserRepository
     }
 
     public function getUserByEmailAndPassword($email, $password): ?User
-{
-    try {
-        $sql = 'SELECT * FROM user WHERE email = :email LIMIT 1';
-        $stmt = $this->dbh->prepare($sql);
-        $stmt->execute(['email' => $email]);
+    {
+        try {
+            $sql = 'SELECT * FROM user WHERE email = :email LIMIT 1';
+            $stmt = $this->dbh->prepare($sql);
+            $stmt->execute(['email' => $email]);
 
-        $user = $stmt->fetchObject(User::class);
+            $user = $stmt->fetchObject(User::class);
 
-        if ($user && password_verify($password, $user->getPassword())) {
-            return $user;
+            if ($user && password_verify($password, $user->getPassword())) {
+                return $user;
+            }
+
+            return null;
+        } catch (PDOException $e) {
+            error_log("Erreur de base de données : " . $e->getMessage());
+            return null;
         }
-
-        return null;
-    } catch (PDOException $e) {
-        error_log("Erreur de base de données : " . $e->getMessage());
-        return null;
     }
-}
 
+    public function updateUserProfil($idUser, $user) {
+        $query = "UPDATE user SET name = :name, email = :email WHERE idUser = :idUser";
+        $stmt = $this->dbh->prepare($query);
+        $stmt->bindParam(':name', $user['name']);
+        $stmt->bindParam(':email', $user['email']);
+        $stmt->bindParam(':idUser', $userId);
+        return $stmt->execute();
+    }
+    
+    public function deleteUserProfil($idUser) {
+        $query = "DELETE FROM user WHERE idUser = :idUser";
+        $stmt = $this->dbh->prepare($query);
+        $stmt->bindParam(':idUser', $userId);
+        return $stmt->execute();
+    }
+    
+    public function getUserByIdProfil($userId) {
+        $query = "SELECT * FROM user WHERE idUser= :id";
+        $stmt = $this->dbh->prepare($query);
+        $stmt->bindParam(':id', $userId);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
 
       
     public function getAllUsers()

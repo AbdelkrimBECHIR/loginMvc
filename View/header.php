@@ -26,6 +26,7 @@ if (isset($_SESSION['flash_message'])) {
             if (isset($_SESSION['user_id'])) { 
             ?>
                 <li><a href="logout">Se déconnecter</a></li>
+                <li><a href="profil">Mon profil</a></li>
             <?php 
             } else { 
             ?>
