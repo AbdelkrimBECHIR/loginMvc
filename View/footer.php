@@ -1,6 +1,6 @@
-   
-    <footer style="background: #f4f4f4; padding: 10px; text-align: center; margin-top: 20px;">
-        <p>&copy; <?php echo date('Y'); ?> login. Tous droits réservés.</p>
-    </footer>
+<footer>
+    <p>&copy; <?php echo date('Y'); ?> Votre Site. Tous droits réservés.</p>
+</footer>
+<script src="/index.js"></script> <!-- Chemin vers le JS -->
 </body>
 </html>

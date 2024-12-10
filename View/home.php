@@ -1,9 +1,10 @@
 
 
-    <!-- Contenu principal -->
-    <div style="text-align: center; margin-top: 50px;">
+<main id="home">
+    <div class="content-wrapper">
         <h1>Bienvenue sur notre site</h1>
-        <p>Accédez à votre compte ou créez-en un nouveau pour commencer.</p>
+        <p>Veuillez vous connecter ou vous inscrire pour continuer.</p>
     </div>
-</body>
-</html>
+</main>
+
+

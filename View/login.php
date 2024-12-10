@@ -1,20 +1,12 @@
-<?php
 
-if (!empty($error)) {
-    echo $error . "<br/>";
-}
+<main id="login">
+    <div class="content-wrapper">
+        <h1>Connexion</h1>
+        <form action="/login/authenticate" method="POST" class="form">
+            <input type="text" name="email" placeholder="Email" required class="input-field">
+            <input type="password" name="password" placeholder="Mot de passe" required class="input-field">
+            <button type="submit" class="btn">Se connecter</button>
+        </form>
+    </div>
+</main>
 
-?>
-
-<form method="post">
-    <label for="email">
-        E-mail
-    </label>
-    <input type="text" name="email" id="email"/>
-    <label for="password">
-        Mot de passe
-    </label>
-    <input type="password" name="password" id="password"/>
-    <br/><br/>
-    <input type="submit" value="Connexion"/>
-</form>
