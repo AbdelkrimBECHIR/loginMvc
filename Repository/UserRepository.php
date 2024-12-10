@@ -89,4 +89,23 @@ class UserRepository
             return null;
         }
     }
+
+    public function getAllUsers()
+    {
+        $stmt = $this->dbh->query("SELECT * FROM user");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function updateUser($id, $name, $firstname, $email, $role)
+    {
+        $stmt = $this->dbh->prepare("UPDATE user SET name = ?, firstname = ?, email = ?, role = ? WHERE id = ?");
+        $stmt->execute([$name, $firstname, $email, $role, $id]);
+    }
+
+    public function deleteUser($id)
+    {
+        $stmt = $this->dbh->prepare("DELETE FROM users WHERE id = ?");
+        $stmt->execute([$id]);
+    }
+
 }
